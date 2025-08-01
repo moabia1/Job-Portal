@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import useFetch from '@/hooks/useFetch'
 import { useUser } from '@clerk/clerk-react';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@radix-ui/react-select';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { State } from 'country-state-city';
 import { useEffect, useState } from 'react';
 import { BarLoader } from 'react-spinners';
@@ -32,8 +32,8 @@ const JobListing = () => {
 
 
   const {
-    fn: fnCompanies,
-    data: companies
+    data: companies,
+    fn: fnCompanies
   } = useFetch(getCompanies);
   useEffect(() => {
     if (isLoaded) fnCompanies();
@@ -47,8 +47,13 @@ const JobListing = () => {
     if (query) setSearchQuery(query);
   }
 
+  const clearFilters = () => {
+    setSearchQuery("");
+    setCompany_id("");
+    setLocation("");
+  }
 
-  
+
 
   if (!isLoaded) {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
@@ -80,11 +85,8 @@ const JobListing = () => {
         </Button>
       </form>
 
-      <div>
-        <Select
-          value={location}
-          onValueChange={(value) => setLocation(value)}
-        >
+      <div className="flex flex-col sm:flex-row gap-2">
+        <Select value={location} onValueChange={(value) => setLocation(value)}>
           <SelectTrigger>
             <SelectValue placeholder="Filter by Location" />
           </SelectTrigger>
@@ -92,7 +94,9 @@ const JobListing = () => {
             <SelectGroup>
               {State.getStatesOfCountry("IN").map(({ name }) => {
                 return (
-                  <SelectItem key={name} value={name}>{name}</SelectItem>
+                  <SelectItem key={name} value={name}>
+                    {name}
+                  </SelectItem>
                 );
               })}
             </SelectGroup>
@@ -108,9 +112,11 @@ const JobListing = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              {companies?.map(({ name,id }) => {
+              {companies?.map(({ name, id }) => {
                 return (
-                  <SelectItem key={name} value={id}>{name}</SelectItem>
+                  <SelectItem key={name} value={id}>
+                    {name}
+                  </SelectItem>
                 );
               })}
             </SelectGroup>
@@ -119,7 +125,7 @@ const JobListing = () => {
         <Button
           variant="destructive"
           className="sm:w-1/2"
-          onClick = {clearFilters}
+          onClick={clearFilters}
         >
           Clear Filters
         </Button>
