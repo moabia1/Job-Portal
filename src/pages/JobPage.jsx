@@ -1,4 +1,5 @@
 import { getSingleJob, updateHiringStatus } from "@/api/apiJobs";
+import ApplyJobDrawer from "@/components/ApplyJobDrawer";
 import {
   Select,
   SelectContent,
@@ -10,7 +11,7 @@ import useFetch from "@/hooks/useFetch";
 import { useUser } from "@clerk/clerk-react";
 import MDEditor from "@uiw/react-md-editor";
 import { Briefcase, DoorClosed, DoorOpen, MapPinIcon } from "lucide-react";
-import React, { useEffect } from "react";
+import React, { use, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 
@@ -81,21 +82,22 @@ const JobPage = () => {
       </div>
 
       {/* Hiring Status */}
-      {loadingHiringstatus && <BarLoader width={"100%"} color="#36d7b7"/>}
+      {loadingHiringstatus && <BarLoader width={"100%"} color="#36d7b7" />}
       {job?.recruiter_id == user?.id && (
-        <Select onValueChange={handleStatusChange}>
-          <SelectTrigger
-            className={`w-full ${job?.isOpen ? "bg-green-950" : "bg-red-950"}`}>
+        <Select
+          className={`w-full ${job?.isOpen ? "bg-green-950" : "bg-red-950"}`}
+          onValueChange={handleStatusChange}
+        >
+          <SelectTrigger>
             <SelectValue
-              placeholder={"Hiring Status "+ (job?.isOpen ? "( Open )" : "( Closed )")} />
+              placeholder={
+                "Hiring Status " + (job?.isOpen ? "( Open )" : "( Closed )")
+              }
+            />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="open">
-              Open
-            </SelectItem>
-            <SelectItem value="closed">
-              Closed
-            </SelectItem>
+            <SelectItem value="open">Open</SelectItem>
+            <SelectItem value="closed">Closed</SelectItem>
           </SelectContent>
         </Select>
       )}
@@ -110,6 +112,18 @@ const JobPage = () => {
       />
 
       {/* Render Applications */}
+      {job?.recruiter_id !== user?.id &&(
+        <ApplyJobDrawer
+          job={job}
+          user={user}
+          fetchJob={fnJob}
+          applied={job?.applications?.find((ap) => ap.candidate_id === user.id)}
+        />
+      )}
+
+      {
+        
+      }
     </div>
   );
 };
