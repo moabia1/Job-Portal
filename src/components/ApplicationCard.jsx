@@ -2,7 +2,7 @@ import React from 'react'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card'
 import { Boxes, BriefcaseBusiness, Download, School } from 'lucide-react'
 import useFetch from '@/hooks/useFetch'
-import { updateApplications } from '@/api/apiCompanies'
+import { updateApplications } from '../api/apiApplications'
 import { BarLoader } from 'react-spinners'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 
