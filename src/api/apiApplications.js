@@ -10,7 +10,9 @@ export async function applyToJob(token, _, jobData) {
     .from("resumes")
     .upload(fileName, jobData.resume);
 
-  if (storageError) throw new Error("Error Uploading Resumes");
+  if (storageError) {
+    ("Error Uploading Resumes",storageError);
+  }
 
   const resume = `${supabaseUrl}/storage/v1/object/public/resumes/${fileName}`;
 

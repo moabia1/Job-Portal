@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import z from 'zod'
 import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from './ui/drawer'
@@ -45,10 +45,16 @@ const AddCompanyDrawer = ({ fetchCompanies }) => {
       logo:data.logo[0]
     })
   }
+
+  useEffect(() => {
+    if (dataAddCompany?.length > 0) fetchCompanies();
+  },[loadingAddCompany])
   
   return (
     <Drawer>
-      <DrawerTrigger>Add Company</DrawerTrigger>
+      <DrawerTrigger>
+        <Button variant="secondary" type="button" size="sm">Add Company</Button>
+      </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Add a New Company</DrawerTitle>
