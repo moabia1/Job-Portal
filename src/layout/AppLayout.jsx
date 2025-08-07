@@ -10,8 +10,8 @@ const AppLayout = () => {
         <Header />
         <Outlet />
       </main>
-      <div className="w-full text-center text-lg p-5 mt-10 bg-zinc-800">
-        Made with by Moabia
+      <div className="w-full text-center text-lg p-5 mt-10 bg-zinc-900">
+        Made with 💗 by Moabia
       </div>
     </div>
   );

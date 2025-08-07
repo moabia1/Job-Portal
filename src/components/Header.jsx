@@ -30,7 +30,7 @@ const Header = () => {
   return (
     <>
       <nav className="flex justify-between items-center">
-        <Link>
+        <Link to="/">
           <img className="h-20" src="/logo.png" alt="" />
         </Link>
         <div className="flex gap-8">
